@@ -8,7 +8,7 @@
 npx skills add briqt/knowledge-project -y -g
 ```
 
-## 什么是这个 Skill
+## 这个 Skill 做什么
 
 一个方法论规范，教 AI Agent "如何组织和维护知识项目"。基于 [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)。
 
