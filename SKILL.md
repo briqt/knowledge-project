@@ -44,16 +44,16 @@ description: >-
 
 ```
 project-root/
-├── CLAUDE.md          # 项目规范（Agent 入口，单一权威源）
-├── log.md             # 工作日志（OKF 保留文件名）
-└── <content>.md       # 至少一个带 frontmatter 的内容文件
+├── CLAUDE.md / AGENTS.md   # 项目规范（两文件内容保持一致，见下方说明）
+├── log.md                  # 工作日志（OKF 保留文件名）
+└── <content>.md            # 至少一个带 frontmatter 的内容文件
 ```
 
 ### 标准项目结构
 
 ```
 project-root/
-├── CLAUDE.md / AGENTS.md   # 项目规范（CLAUDE.md 为权威源，AGENTS.md 是别名，兼容不同 Agent 框架）
+├── CLAUDE.md / AGENTS.md   # 项目规范（两文件内容完全一致）
 ├── index.md                # 全局导航（文件 >3 个时创建）
 ├── log.md                  # 工作日志
 ├── .scratch/               # 探索期临时文件（gitignore，蒸馏时处理）
@@ -62,6 +62,12 @@ project-root/
 │   └── <content>.md
 └── 归档/                   # 已废弃内容（可选）
 ```
+
+### CLAUDE.md 与 AGENTS.md
+
+不同 Agent 读取不同文件名：Claude Code 读 `CLAUDE.md`，Codex/OpenClaw 等读 `AGENTS.md`。两个文件内容必须完全一致。修改任一文件时同步更新另一个。
+
+CLAUDE.md 是项目的单一权威规则源，其他文件的规则与之冲突时以 CLAUDE.md 为准。
 
 ### CLAUDE.md vs index.md
 
