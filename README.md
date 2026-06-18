@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-npx skills add briqt/knowledge-project -a claude-code -a codex
+npx skills add briqt/knowledge-project -y -g
 ```
 
 ## 什么是这个 Skill
