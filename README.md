@@ -7,7 +7,7 @@
 ## 安装
 
 ```bash
-npx skills add briqt/knowledge-project -y -g
+npx skills add briqt/knowledge-project -g -y
 ```
 
 ## 包含什么
