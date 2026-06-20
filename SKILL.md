@@ -26,6 +26,44 @@ description: >-
 
 **格式基础**：[Open Knowledge Format (OKF) v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) —— 知识用 markdown + YAML frontmatter 目录表示，人和 Agent 用同一份文件。
 
+**底线**：项目目录是唯一的持久化载体。换 Agent、换平台、清空记忆，打开项目目录即可继续。
+
+## Agent Directives
+
+本 skill 被触发后，Agent 的首要职责是维护项目的自描述能力和自迭代能力。
+
+### 触发行为
+
+根据用户意图自动分流：
+
+| 意图 | Agent 行为 |
+|------|-----------|
+| 创建新项目 | 执行 Initialize workflow |
+| 恢复/继续项目 | 执行 Resume workflow |
+| 整理/优化项目 | 执行 Health Check → 按诊断结果执行 Milestone Review 或 Distill |
+| 回顾方法论 | 执行 Meta-Iteration 的信号检测 |
+
+触发时，Agent 应主动对照 Health Check 清单扫描项目现状，发现可改进项时向用户提出。
+
+### 维护自描述
+
+项目的所有上下文落在项目文件中（CLAUDE.md/AGENTS.md、log.md、内容文件），不依赖外部记忆系统。不要将项目信息写入 Agent 自身的 memory——项目文件就是记忆。Agent 在工作过程中持续确保：
+
+- 有实质进展 → 追加 log 条目，使下一个 session 无需追溯即可继续
+- 做了多选一决策 → 写入决策记录，使决策理由对未来可检索
+- 创建/修改文件 → 确保 frontmatter 有效
+- 结束工作时 → 确认 log.md 最后一条的"下一步"足以让任意 Agent 接手
+
+### 推动自迭代
+
+Agent 在项目中工作时，持续感知结构摩擦并推动改进：
+
+- 发现规则与实际操作不一致 → 提出 CLAUDE.md/AGENTS.md 修改建议
+- 发现导航不够高效 → 提出结构调整
+- 发现重复模式 → 提出新规则或模板
+
+改进走 proposal 模式：诊断 → 提案 → 用户确认 → 执行 → 记录到 log。
+
 ## Epistemics
 
 知识工作的认知纪律。贯穿所有工作流，优先级高于具体流程步骤。
@@ -43,7 +81,7 @@ description: >-
 | 规模 | 结构 | 适用场景 |
 |------|------|----------|
 | 单文件 | 一个带 frontmatter 的 .md 文件 | 研究笔记、单篇报告、小 topic |
-| 最小项目 | CLAUDE.md + log.md + 内容文件 | 短期调研、原型验证、小型写作 |
+| 最小项目 | CLAUDE.md/AGENTS.md + log.md + 内容文件 | 短期调研、原型验证、小型写作 |
 | 标准项目 | 完整目录结构 | 多文档协作、长期项目、团队共享 |
 
 当文件增长到需要拆分、或需要跨 session 维护上下文时，从当前规模升级到下一级。
@@ -71,20 +109,20 @@ project-root/
 └── 归档/                   # 已废弃内容（可选）
 ```
 
-### CLAUDE.md 与 AGENTS.md
+### CLAUDE.md/AGENTS.md
 
-不同 Agent 读取不同文件名：Claude Code 读 `CLAUDE.md`，Codex/OpenClaw 等读 `AGENTS.md`。两个文件内容必须完全一致。修改任一文件时同步更新另一个。
+不同 Agent 平台读取不同的项目规范文件名，因此两个文件必须同时存在且内容完全一致。修改任一文件时同步更新另一个。
 
-CLAUDE.md 是项目的单一权威规则源，其他文件的规则与之冲突时以 CLAUDE.md 为准。
+CLAUDE.md/AGENTS.md 是项目的单一权威规则源，其他文件的规则与之冲突时以此为准。
 
-### CLAUDE.md vs index.md
+### CLAUDE.md/AGENTS.md vs index.md
 
 | 文件 | 职责 | 内容类型 |
 |------|------|----------|
-| CLAUDE.md | 规则 + 高层路由 | 项目约定、按事项/职能的入口指引、Agent 行为规范 |
+| CLAUDE.md/AGENTS.md | 规则 + 高层路由 | 项目约定、按事项/职能的入口指引、Agent 行为规范 |
 | index.md | 文件清单 + 导航 | 按目录结构列出具体文件及其 description |
 
-CLAUDE.md 引用 index.md（"详见 index.md"），不复述其内容。两者共存时，CLAUDE.md 告诉你"去哪个方向"，index.md 告诉你"那个方向有什么"。
+CLAUDE.md/AGENTS.md 引用 index.md（"详见 index.md"），不复述其内容。两者共存时，CLAUDE.md/AGENTS.md 告诉你"去哪个方向"，index.md 告诉你"那个方向有什么"。
 
 ## Frontmatter Schema
 
@@ -157,20 +195,100 @@ relates:                         # 可选，强关联文档路径
 ### Initialize（创建新项目）
 
 1. 创建项目目录
-2. 写 CLAUDE.md：目标、结构约定、Agent 行为指引
+2. 写 CLAUDE.md/AGENTS.md：
+   - 项目目标、结构约定
+   - **嵌入种子规则**（见 Seed 章节）——确保后续 Agent 即使不触发 skill 也能维护项目
+   - 种子末尾包含指向 knowledge-project skill 的指针，形成升级路径
 3. 创建 log.md，第一条记录"项目创建 + 目标"
 4. 创建第一个内容文件（带 frontmatter）
 5. 如果目标复杂，先对齐需求再动手
 
-**产出**：一个自包含项目，任何 Agent 打开 CLAUDE.md 即可开始工作。
+**产出**：一个自包含项目，任何 Agent 打开 CLAUDE.md/AGENTS.md 即可开始工作——即使从未听说过 knowledge-project skill。
+
+### Seed（种子机制）
+
+Initialize 时将核心行为规则嵌入项目 CLAUDE.md/AGENTS.md，使项目在无 skill 触发时仍能自维护。
+
+**原理**：
+- SKILL.md = 完整方法论（基因库）
+- 项目 CLAUDE.md/AGENTS.md 中的 Agent 行为规则 = 精简的表达型规则（表型）
+- Initialize = 从基因库提取关键规则嵌入项目（繁殖）
+
+**种子内容**（写入 CLAUDE.md/AGENTS.md 的 `## Agent 行为规则` 章节）：
+
+1. 项目文件即记忆（不依赖外部 memory）
+2. log.md 追加规则（格式 + "下一步"自足）
+3. Resume 阅读协议（阅读顺序）
+4. frontmatter 基本要求（type 必填）
+5. CLAUDE.md/AGENTS.md 同步规则
+6. 自迭代感知（规则漂移 → proposal）
+
+**种子模板**：
+
+```markdown
+## Agent 行为规则（Seed from knowledge-project skill）
+
+<!-- seed-version: YYYY-MM-DD | 完整方法论：knowledge-project skill -->
+
+### 核心纪律
+
+- **项目文件即记忆**：所有上下文落在项目文件中，不写入 Agent 外部 memory
+- **有进展就写 log**：完成实质工作 → 追加 log.md 条目（进展/决策/下一步）
+- **log 条目自足**：每条不超 5 行，"下一步"足以让任意 Agent 从零接手
+- **新建文件写 frontmatter**：至少 `type` 字段
+- **CLAUDE.md 与 AGENTS.md 保持同步**：修改一方时更新另一方
+
+### 恢复上下文（Resume）
+
+新 session 阅读顺序：CLAUDE.md/AGENTS.md → 任务清单（如有）→ log.md 尾部 → 进入工作。
+
+### 自迭代
+
+- 实际操作与本文件规则不一致 → 提出修改建议（proposal → 确认 → 执行）
+- 发现导航不够高效或出现重复模式 → 提出结构调整
+- 改进记录到 log.md
+
+### log.md 格式
+
+    ### YYYY-MM-DD 事项名称 @操作人
+    **进展**：…  **决策**：…（无则省略）  **下一步**：…
+
+---
+
+*完整方法论（Distill、Health Check、Milestone Review 等）见 `knowledge-project` skill。*
+```
+
+**演化一致性**：
+
+- Health Check 检查"种子版本是否过时"——对比 `seed-version` 日期与 SKILL.md 核心规则的最近变更日期
+- 种子过时时 → 提示用户"种子规则可能需要更新"，展示变更内容
+- 更新走 proposal 模式：展示变更 → 用户确认 → 替换种子块 → 记录到 log
+- 只追踪核心规则的变化；SKILL.md 流程细节变化不触发种子更新
 
 ### Resume（恢复上下文）
 
 新 session 阅读协议：
-1. CLAUDE.md → 理解项目结构和约定
+1. CLAUDE.md/AGENTS.md → 理解项目结构和约定
 2. 任务清单（如有）→ 知道当前活跃任务
 3. log.md 尾部 5-10 条 → 知道最近进展和阻塞
 4. 进入具体工作
+
+### Health Check（项目健康检查）
+
+打开已有项目或用户要求"整理/优化"时执行。对照以下清单诊断：
+
+| 检查项 | 标准 | 不达标时 |
+|--------|------|----------|
+| CLAUDE.md/AGENTS.md 存在且有效 | 包含目标、结构约定、Agent 行为指引 | 建议补全 |
+| log.md 存在 | 有至少一条记录 | 建议创建 |
+| 内容文件有 frontmatter | 至少有 `type` 字段 | 列出缺失文件，建议补 |
+| index.md 一致性 | 目录 >3 文件时存在，且与实际文件一致 | 建议创建或更新 |
+| log.md 长度 | ≤200 行 | 建议归档旧条目 |
+| .scratch/ 积压 | ≤10 文件 | 建议执行 Distill |
+| CLAUDE.md 与 AGENTS.md 同步 | 内容一致 | 建议同步 |
+| 种子版本 | `seed-version` 日期不早于 SKILL.md 最近核心规则变更 | 提示更新种子 |
+
+**流程**：扫描项目 → 生成诊断报告 → 向用户展示问题和建议 → 用户确认后执行修复 → 记录到 log。
 
 ### Daily Operations（日常维护）
 
@@ -189,7 +307,7 @@ relates:                         # 可选，强关联文档路径
 触发：阶段完成、方向变更、或 log.md 积累到一定量。
 
 1. 回顾 log 近期条目，识别模式
-2. 更新 CLAUDE.md 中的规则（如果有过时的）
+2. 更新 CLAUDE.md/AGENTS.md 中的规则（如果有过时的）
 3. 归档已废弃内容
 4. 重组 index.md
 5. 在 log 中记录"回顾"条目
@@ -250,11 +368,13 @@ relates:                         # 可选，强关联文档路径
 
 项目在使用过程中自我改进，不依赖外部回顾会。
 
+Agent Directives 中的"推动自迭代"定义了日常感知职责（工作中随时识别摩擦）。本节定义何时启动正式的结构性迭代，以及具体流程。
+
 ### 触发条件
 
 不用 session 结束触发（避免噪音），而是：
 - **Resume 摩擦**：恢复上下文时需要打开超过 5 个文件才能定位当前工作状态 → 导航结构需优化
-- **规则漂移**：实际操作与 CLAUDE.md 规则不一致（Agent 做了规则没覆盖的事，或规则要求了没人做的事）
+- **规则漂移**：实际操作与 CLAUDE.md/AGENTS.md 规则不一致（Agent 做了规则没覆盖的事，或规则要求了没人做的事）
 - **里程碑完成**：阶段性工作结束，自然的回顾时机
 - **阈值触发**：log 超 200 行 → 归档；单目录超 7 文件且无 index → 补导航；决策记录超 10 条 → 归纳模式
 - **用户显式要求**："回顾一下项目结构"、"这个方法论哪里不顺"
@@ -271,7 +391,7 @@ relates:                         # 可选，强关联文档路径
 |----|--------|------|
 | 内容 | 文档本身 | 描述过时，更新 |
 | 结构 | 文件组织 | 目录太深，扁平化 |
-| 规则 | CLAUDE.md 的约定 | 某条规则太死板 |
+| 规则 | CLAUDE.md/AGENTS.md 的约定 | 某条规则太死板 |
 | 模式 | 工作方式 | 发现新的有效模式 |
 
 ### 经验沉淀（可选）
@@ -290,18 +410,18 @@ relates:                         # 可选，强关联文档路径
 
 - 多个项目发明了相同规则 → SKILL 缺少这个通用规则
 - 多个项目覆盖了 SKILL 的同一条规则 → 默认值不对
-- 新项目创建后立即改 CLAUDE.md → 初始化模板有问题
+- 新项目创建后立即改 CLAUDE.md/AGENTS.md → 初始化模板有问题
 
 ### 安全性
 
 - **必须显式触发**（用户说"改进这个方法论"）
 - **proposal 模式**：提案 → 影响范围声明 → 确认 → 执行
 - **版本化**：SKILL.md 在 git 中，任何时候可 `git revert` 回退
-- **渐进验证**：先在项目 CLAUDE.md 中局部覆盖新规则试行；使用 3 次以上未被再次覆盖 → 视为有效，可合入 SKILL.md；若无多项目可验证，试行 2 周无摩擦即可合入
+- **渐进验证**：先在项目 CLAUDE.md/AGENTS.md 中局部覆盖新规则试行；使用 3 次以上未被再次覆盖 → 视为有效，可合入 SKILL.md；若无多项目可验证，试行 2 周无摩擦即可合入
 
 ## Customization
 
-不同项目类型可以调整结构。SKILL.md 定义通用骨架，项目 CLAUDE.md 按需扩展：
+不同项目类型可以调整结构。SKILL.md 定义通用骨架，项目 CLAUDE.md/AGENTS.md 按需扩展：
 
 | 项目类型 | 典型扩展 | 说明 |
 |----------|----------|------|
@@ -310,7 +430,7 @@ relates:                         # 可选，强关联文档路径
 | 研究项目 | references/（文献来源）、findings/（发现与结论） | 按调研→结论组织 |
 | 知识库 | tags 体系、跨文档链接网络 | 偏图结构而非树结构 |
 
-覆盖 SKILL.md 默认规则时，在 CLAUDE.md 中写明覆盖了什么和为什么。
+覆盖 SKILL.md 默认规则时，在 CLAUDE.md/AGENTS.md 中写明覆盖了什么和为什么。
 
 ## Boundaries
 
