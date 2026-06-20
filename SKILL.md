@@ -26,6 +26,14 @@ description: >-
 
 **格式基础**：[Open Knowledge Format (OKF) v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) —— 知识用 markdown + YAML frontmatter 目录表示，人和 Agent 用同一份文件。
 
+## Epistemics
+
+知识工作的认知纪律。贯穿所有工作流，优先级高于具体流程步骤。
+
+1. **基于证据**：判断、选择、结论须追溯到可观测的依据。没有证据时承认不确定，而非填充看似合理的假设。
+2. **在行动点决策**：不提前锁定依赖未知信息的决定。确定方向，开始行动，让工作本身产生下一个决策点。
+3. **完整执行**：不跳步骤，不用"以此类推"代替实际工作。产出是做出来的，不是规划出来的。
+
 ## Project Structure
 
 ### 规模适配
