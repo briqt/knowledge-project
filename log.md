@@ -11,3 +11,9 @@
 **进展**：补齐 `CLAUDE.md`/`AGENTS.md`/`log.md`，让本仓库用自己的方法论维护自己；README 加一句定位澄清（元技能、方法论本体在 `skills/`）。
 **决策**：`CLAUDE.md` 不嵌种子块——完整方法论就在同仓库 `skills/SKILL.md`，直接引用避免双份漂移。
 **下一步**：B（stable-ID 的 Meta-Iteration proposal）待用户单独决策后启动。
+
+### 2026-07-10 Meta-Iteration：任务清单状态列纳入派生视图纪律 @ai
+
+**进展**：据外部项目反馈（内容文件已完结、台账状态列仍「进行中」的假活跃），合入 `skills/SKILL.md` 三处——Context System 声明完成状态为派生量；Health Check、Daily Operations 各加一行状态一致性检查。
+**决策**：采「派生视图对齐源头」框架（复用 index.md 模式），未采反馈原案的「双写对账」；未改 Seed（非核心种子规则，不 bump seed-version）；1 数据点，依「无多项目验证则试行合入」直接合入。
+**下一步**：留意后续项目是否覆盖此规则；stable-ID（#120）Meta-Iteration 仍待单独决策。
