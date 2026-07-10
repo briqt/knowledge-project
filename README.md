@@ -1,8 +1,8 @@
 # knowledge-project
 
-用 markdown + frontmatter 管理知识工作项目的 skill。定义了文件结构、元数据、工作日志和迭代流程的约定，使项目目录对人和 AI Agent 都可读可续。
+一个 skill，指导你的知识项目如何自我维护：用 markdown + frontmatter 约定文件结构、元数据、工作日志和迭代流程，使项目目录对人和 AI Agent 都可读可续、跨 session 可接续。
 
-基于 [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)。
+方法论本体在 [`skills/SKILL.md`](skills/SKILL.md)（安装后由 Agent 加载运行）；格式底座基于 [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)。
 
 ## 安装
 
