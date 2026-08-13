@@ -13,6 +13,7 @@
 | `skills/SKILL.md` | 运行时的 Agent | **产品本体**：完整方法论，单一权威源 |
 | `CLAUDE.md` / `AGENTS.md` | 维护本仓库的 Agent | 本文件：怎么维护这个仓库 |
 | `log.md` | 维护者 | 维护进展与决策，跨 session 接续 |
+| `tests/test_repo_contract.py` | 维护本仓库的 Agent | 确定性仓库门禁（含证伪用例），不属于产品本体 |
 
 本文件只讲"如何维护本仓库"；方法论细节一律看 `skills/SKILL.md`，不复述。
 
@@ -27,16 +28,19 @@
 
 ## Agent 行为规则
 
-完整方法论就在同仓库 `skills/SKILL.md`，因此本文件**不嵌种子块**，直接遵循 SKILL.md 即可。关键几条：
+**自足档位：A（完全自足）**——完整方法论就在同仓库 `skills/SKILL.md`，指向它是仓内链接而非外部依赖，因此本文件**不嵌种子块**，直接遵循 SKILL.md 即可。关键几条：
 
 - **不指名任何外部项目**：本仓公开。所有文件与提交信息一律不写外部项目/仓库名，只写类型描述（如"写作型项目"）
 - **有实质进展就追加 `log.md`**："下一步"要写到任意 Agent 只读它就能接手
 - **`CLAUDE.md` 与 `AGENTS.md` 内容保持一致**，改一个同步另一个
 - **改产品走 Meta-Iteration**（见上表）
+- **提交前跑 `python3 tests/test_repo_contract.py`**：双文件一致、SKILL frontmatter 与 YAML 示例可解析、种子模板零回引、无机器路径，机械可判项交给门禁
 - Resume 顺序：本文件 → `log.md` 尾部 → 进入工作
 
 ## 上游依赖：OKF
 
-方法论的**格式底座**是 [OKF v0.1](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)（frontmatter 字段、`index.md`/`log.md` 保留名、链接语义）。
+方法论的**格式底座**是 [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)（frontmatter 字段、`index.md`/`log.md` 保留名、链接语义）。
 OKF 只管格式；方法论层（Seed、自迭代、Epistemics 等）是本 skill 自己的，不随 OKF 变。
-定期巡检 OKF 有无影响我们的变更，基线与结论见 `log.md`。
+**有意偏离 OKF 的地方一律写进 `skills/SKILL.md` §与 OKF 的显式分歧**，不静默违反。
+**每月巡检一次**上游有无影响我们的变更（上次基线与结论见 `log.md`）。
+本仓是 skill 的分发容器，仓库根不宣称为 OKF bundle（见 SKILL §项目与 OKF bundle 的边界）；dogfood 的是方法论层（log、规则治理、Meta-Iteration），不强行给包装文件加 frontmatter。
