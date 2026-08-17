@@ -18,7 +18,7 @@ npx skills add briqt/knowledge-project -g -y
 - **Frontmatter**：OKF 兼容，`type` 必填，其余按需
 - **工作日志**（log.md）：追加式记录进展/决策/下一步，跨 session 恢复上下文
 - **决策记录**：多方案取舍时记录理由，内联到相关文档
-- **Seed 与自足档位**：核心规则内联进项目，产出物不反向依赖本 skill——skill 不在场也照常工作
+- **Seed 与零外部引用**：核心规则内联进项目，产出物不反向依赖、也不引用本 skill——skill 不在场也照常工作
 - **Distill 流程**：从探索阶段的临时产物中蒸馏出值得保留的部分
 - **Self-Iteration**：项目结构的自我改进触发条件和流程，含规则的准入/退出与门禁有效性
 - **Meta-Iteration**：方法论本身的改进机制
