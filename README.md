@@ -2,7 +2,7 @@
 
 一个 skill，指导你的知识项目如何自我维护：用 markdown + frontmatter 约定文件结构、元数据、工作日志和迭代流程，使项目目录对人和 AI Agent 都可读可续、跨 session 可接续。
 
-方法论本体在 [`skills/SKILL.md`](skills/SKILL.md)（安装后由 Agent 加载运行）；格式底座基于 [OKF v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md)。
+方法论本体在 [`skills/`](skills/SKILL.md)：`SKILL.md` 是每次触发都加载的常驻层（原则、纪律、意图路由），`references/` 按意图只读需要的那几份；格式底座基于 [OKF v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md)。
 
 ## 安装
 
@@ -12,7 +12,7 @@ npx skills add briqt/knowledge-project -g -y
 
 ## 包含什么
 
-一个 SKILL.md，约定了：
+两部分——**项目组织**与**工作方法论**：
 
 - **项目结构**：最小 3 文件（CLAUDE.md + log.md + 内容），按规模渐进扩展；规则变多时分常驻/任务/理由三层加载
 - **Frontmatter**：OKF 兼容，`type` 必填，其余按需
@@ -20,7 +20,9 @@ npx skills add briqt/knowledge-project -g -y
 - **决策记录**：多方案取舍时记录理由，内联到相关文档
 - **Seed 与零外部引用**：核心规则内联进项目，产出物不反向依赖、也不引用本 skill——skill 不在场也照常工作
 - **Distill 流程**：从探索阶段的临时产物中蒸馏出值得保留的部分
-- **Self-Iteration**：项目结构的自我改进触发条件和流程，含规则的准入/退出与门禁有效性
+- **认知纪律**：基于证据、委派产出先复核、完整执行、对齐优先——核心几条随种子内联进项目，skill 不触发时照样生效
+- **规则治理**：复发即固化、规则的准入/退出、门禁有效性——规则变多时不膨胀失效
+- **Self-Iteration**：项目结构的自我改进触发条件和流程
 - **Meta-Iteration**：方法论本身的改进机制
 
 ## 适用于
