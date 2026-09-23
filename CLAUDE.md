@@ -34,7 +34,7 @@
 - **有实质进展就追加 `log.md`**："下一步"要写到任意 Agent 只读它就能接手
 - **`CLAUDE.md` 与 `AGENTS.md` 内容保持一致**，改一个同步另一个
 - **改产品走 Meta-Iteration**（见上表）
-- **提交前跑 `python3 tests/test_repo_contract.py`**：双文件一致、SKILL frontmatter 与 YAML 示例可解析、种子模板零回引、无机器路径，机械可判项交给门禁
+- **提交前跑 `python3 tests/test_repo_contract.py`**：双文件一致、SKILL frontmatter 与 YAML 示例可解析、示例时间字段带时区偏移、种子模板零回引、无机器路径，机械可判项交给门禁
 - Resume 顺序：本文件 → `log.md` 尾部 → 进入工作
 
 ## 上游依赖：OKF

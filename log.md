@@ -71,3 +71,9 @@
 **进展**：OKF 迁至独立仓 `open-knowledge-format`，旧副本已冻结 → README/CLAUDE/AGENTS/SKILL 四处链接改指新仓（SPEC 逐字相同，仍 v0.2）。上游 #323 要求所有时间字段为带显式偏移的 datetime、date-only 被严格消费者忽略 → 走下条 Meta-Iteration。
 **决策**：以下观望不动——#28（提议 `generated` 只记创建、另加 `revised`；合并则与我们「改文档即更新 `generated.at`」冲突）、#24（#323 不兼容却没 bump 版本，`okf_version: "0.2"` 指两份文档）、#29（路径相对基准）、#26（重生成根 index 丢 `okf_version`）。
 **下一步**：2026-10 巡检，重点 #28 与 #24 的走向。
+
+### 2026-09-23 Meta-Iteration：时间字段带偏移 + index 阈值消歧 @ai
+
+**进展**：SKILL §Frontmatter 加「时间字段一律带时区偏移」（迁移补 `T00:00:00`+项目时区，不默认 `Z`），`stale_after` 由「日期」改「时刻」；§Self-Iteration 阈值触发的「超 7 文件」改为 `>3`，与其余四处统一。门禁新增示例时间字段带偏移检查，含证伪用例，并实测改坏 SKILL 示例会红。
+**决策**：用户显式触发。「7」自首个提交即存在、无记录理由，判为遗留矛盾。两处均为对齐上游/消歧，非新增行为规则，零和不适用；种子模板未变，不 bump。
+**下一步**：下游实例的 date-only 时间值走 Daily Operations「发现 frontmatter 过时 → 顺手更新」迁移；若复发成批，再议给 Health Check 加一项。

@@ -32,6 +32,35 @@ def yaml_blocks(text: str) -> list:
     return re.findall(r"```yaml\n(.*?)\n```", text, re.S)
 
 
+TIMESTAMP_KEYS = {"at", "stale_after", "last_modified", "from", "to"}
+OFFSET_DATETIME = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2}(\.\d+)?)?(Z|[+-]\d{2}:\d{2})$")
+
+
+def timestamp_values(block: str) -> list:
+    """取 yaml 示例里所有时间字段的原文。用 BaseLoader：safe_load 会把时间转成对象，丢掉原文写法。"""
+    lines = [l for l in block.splitlines() if l.strip() != "---"]
+    found = []
+
+    def walk(node):
+        if isinstance(node, dict):
+            for k, v in node.items():
+                if k in TIMESTAMP_KEYS and isinstance(v, str):
+                    found.append(v)
+                else:
+                    walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    walk(yaml.load("\n".join(lines), Loader=yaml.BaseLoader))
+    return found
+
+
+def offsetless_timestamps(block: str) -> list:
+    """度量：不是「ISO 8601 datetime + 显式时区偏移」的时间字段值（OKF v0.2 §5 前言）。"""
+    return [v for v in timestamp_values(block) if not OFFSET_DATETIME.match(v)]
+
+
 def frontmatter_of(text: str):
     if not text.startswith("---\n"):
         return None
@@ -63,6 +92,14 @@ class RepoContractTests(unittest.TestCase):
                 lines = [l for l in block.splitlines() if l.strip() != "---"]
                 self.assertIsInstance(yaml.safe_load("\n".join(lines)), dict)
 
+    def test_skill_yaml_timestamps_have_offset(self):
+        blocks = yaml_blocks(SKILL.read_text(encoding="utf-8"))
+        # 触发面不能为空：示例里一个时间字段都没有时，这道检查跑出来也是绿的
+        self.assertTrue(any(timestamp_values(b) for b in blocks), "yaml 示例中应至少有一个时间字段")
+        for i, block in enumerate(blocks):
+            with self.subTest(block=i):
+                self.assertEqual(offsetless_timestamps(block), [])
+
     def test_seed_template_exists_and_has_no_backref(self):
         seed = extract_seed_template(SKILL.read_text(encoding="utf-8"))
         self.assertIsNotNone(seed, "SKILL.md 应包含种子模板围栏")
@@ -84,6 +121,11 @@ class GateFalsificationTests(unittest.TestCase):
     def test_seed_backref_detector_negative(self):
         bad_seed = "## Agent 行为规则\n完整方法论见 knowledge-project skill。"
         self.assertTrue(seed_backrefs(bad_seed))
+
+    def test_timestamp_offset_detector_negative(self):
+        bad = "stale_after: 2026-12-31\ngenerated:\n  at: 2026-08-13T10:00:00\nverified:\n  - { by: human:a, at: 2026-08-13 }"
+        self.assertEqual(len(offsetless_timestamps(bad)), 3)
+        self.assertEqual(offsetless_timestamps("stale_after: 2026-12-31T00:00:00+08:00\nat: 2026-06-30T14:00:00Z"), [])
 
     def test_frontmatter_detector_negative(self):
         self.assertIsNone(frontmatter_of("# 没有 frontmatter 的文件\n"))

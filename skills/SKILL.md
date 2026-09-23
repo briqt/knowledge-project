@@ -175,7 +175,7 @@ description: 一句话摘要             # 推荐，Agent 判断相关性
 tags: [tag1, tag2]                # 推荐，跨目录检索
 generated:                        # 推荐，取代 v0.1 的 timestamp
   by: human:alice                 #   actor：human:<id> 或 <产出者>/<版本>
-  at: 2026-08-13T10:00:00+08:00   #   最后实质修改（ISO 8601 datetime）
+  at: 2026-08-13T10:00:00+08:00   #   最后实质修改（ISO 8601，带时区偏移）
 status: stable                    # 可选，draft | stable | deprecated（缺省 stable）
 verified:                         # 可选，谁复核过
   - { by: human:alice, at: 2026-08-13T18:00:00+08:00 }
@@ -192,8 +192,9 @@ relates:                          # 可选，强关联文档路径
 - **`generated` 取代 `timestamp`**：旧文档的 `timestamp` 仍可读（OKF 允许回退），新写文件与顺手更新时改用 `generated`。迁移旧文档时 actor 无从确认就保留 `timestamp`，不编造 `generated.by`——读旧文档做宽容消费者，自己写入做严格生产者
 - **`status: deprecated`** 是"归档即关闭"的元数据表达（见 Context System）
 - **`verified` 决定可信档**：无该字段 = 未复核；仅非 human actor = 机器确认；含 `human:<id>` = 人已复核。这与"门禁分层"是同一个区分——可机械校验的由机器确认，只能语义判断的须人复核
+- **时间字段一律带时区偏移**：`generated.at`、`verified[].at`、`stale_after`、`sources[].last_modified`、`usage_window` 都写成 `2026-08-13T10:00:00+08:00` 这种形式。只写日期的值，严格的消费者会直接忽略——`stale_after: 2026-12-31` 等于没写。迁移只有日期的旧值时，补 `T00:00:00` 加项目所在时区的偏移；时区无从确认就问，不默认 `Z`。log 的日期标题不是字段值，不在此列
 - **`index.md` 不带 frontmatter**，唯一例外：项目根 index.md 可写 `okf_version: "0.2"`
-- **其余可选族按需采用**：`sources`（来源清单，正文逐条归因用与 `sources[].id` 同名的脚注；v0.1 的正文 `# Citations` 迁入此字段，无法核实的条目标注待核验）、`stale_after`（绝对过期日期）。研究型项目值得用；不写不违规，写就只写已核实的值——来源、actor、时间、核验一律不伪造
+- **其余可选族按需采用**：`sources`（来源清单，正文逐条归因用与 `sources[].id` 同名的脚注；v0.1 的正文 `# Citations` 迁入此字段，无法核实的条目标注待核验）、`stale_after`（绝对过期时刻）。研究型项目值得用；不写不违规，写就只写已核实的值——来源、actor、时间、核验一律不伪造
 - 正文中用标准 markdown 链接表达概念关联
 
 ### 与 OKF 的显式分歧
@@ -434,7 +435,7 @@ Agent Directives 中的"推动自迭代"定义了日常感知职责（工作中�
 - **规则漂移**：实际操作与 CLAUDE.md/AGENTS.md 规则不一致（Agent 做了规则没覆盖的事，或规则要求了没人做的事）
 - **目标漂移**：实际工作方向与声明的项目目标明显偏离 → 确认是目标需要更新还是工作需要拉回
 - **里程碑完成**：阶段性工作结束，自然的回顾时机
-- **阈值触发**：log 超过归档阈值 → 归档；单目录超 7 文件且无 index → 补导航；决策记录超 10 条 → 归纳模式
+- **阈值触发**：log 超过归档阈值 → 归档；单目录 >3 文件且无 index.md → 补导航；决策记录超 10 条 → 归纳模式
 - **用户显式要求**："回顾一下项目结构"、"这个方法论哪里不顺"
 
 ### 流程
