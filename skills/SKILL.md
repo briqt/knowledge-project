@@ -24,7 +24,7 @@ description: >-
 4. **写的人花 2 分钟，读的人省 20 分钟**：信息密度优先，格式服务检索
 5. **单一权威源**：规则只在一处定义，其他文件引用不复述
 
-**格式基础**：[Open Knowledge Format (OKF) v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md) —— 知识用 markdown + YAML frontmatter 目录表示，人和 Agent 用同一份文件。
+**格式基础**：[Open Knowledge Format (OKF) v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) —— 知识用 markdown + YAML frontmatter 目录表示，人和 Agent 用同一份文件。
 
 **底线**：项目目录是唯一的持久化载体。换 Agent、换平台、清空记忆、**本 skill 未安装**，打开项目目录即可继续。
 

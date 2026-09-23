@@ -39,7 +39,7 @@
 
 ## 上游依赖：OKF
 
-方法论的**格式底座**是 [OKF v0.2](https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md)（frontmatter 字段、`index.md`/`log.md` 保留名、链接语义）。
+方法论的**格式底座**是 [OKF v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md)（frontmatter 字段、`index.md`/`log.md` 保留名、链接语义）。
 OKF 只管格式；方法论层（Seed、自迭代、Epistemics 等）是本 skill 自己的，不随 OKF 变。
 **有意偏离 OKF 的地方一律写进 `skills/SKILL.md` §与 OKF 的显式分歧**，不静默违反。
 **每月巡检一次**上游有无影响我们的变更（上次基线与结论见 `log.md`）。
