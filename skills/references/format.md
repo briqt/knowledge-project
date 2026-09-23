@@ -17,8 +17,6 @@ generated:                        # 推荐，取代 v0.1 的 timestamp
 status: stable                    # 可选，draft | stable | deprecated（缺省 stable）
 verified:                         # 可选，谁复核过
   - { by: human:alice, at: 2026-08-13T18:00:00+08:00 }
-relates:                          # 可选，强关联文档路径
-  - path/to/related.md
 ---
 ```
 
@@ -33,7 +31,7 @@ relates:                          # 可选，强关联文档路径
 - **时间字段一律带时区偏移**：`generated.at`、`verified[].at`、`stale_after`、`sources[].last_modified`、`usage_window` 都写成 `2026-08-13T10:00:00+08:00` 这种形式。只写日期的值，严格的消费者会直接忽略——`stale_after: 2026-12-31` 等于没写。迁移只有日期的旧值时，补 `T00:00:00` 加项目所在时区的偏移；时区无从确认就问，不默认 `Z`。log 的日期标题不是字段值，不在此列
 - **`index.md` 不带 frontmatter**，唯一例外：项目根 index.md 可写 `okf_version: "0.2"`
 - **其余可选族按需采用**：`sources`（来源清单，正文逐条归因用与 `sources[].id` 同名的脚注；v0.1 的正文 `# Citations` 迁入此字段，无法核实的条目标注待核验）、`stale_after`（绝对过期时刻）。研究型项目值得用；不写不违规，写就只写已核实的值——来源、actor、时间、核验一律不伪造
-- 正文中用标准 markdown 链接表达概念关联
+- 概念之间的关联用正文里的标准 markdown 链接表达，不另设 frontmatter 字段——OKF 工具按正文链接建关系图
 
 ## 与 OKF 的显式分歧
 
@@ -65,6 +63,7 @@ relates:                          # 可选，强关联文档路径
 - `@操作人` 用 git 用户名，AI Agent 用 `@ai`
 - `下一步` 是 session 接力的核心机制——写法标准：一个新 Agent 只读这一条就知道该做什么
 - **归档阈值 = 装得下 Resume 所需的最近窗口**（约 2-3 天或 10-15 条），默认 200 行。条目密度高的项目按此上调并在 AGENTS.md 写明覆盖值——阈值卡在绝对行数上会把接力需要的上下文一起归档掉
+- **归档做法**：旧条目原样移到 `log-archive/<年份>.md`（同样最新在底部），log.md 只留最近窗口；最后一条的"下一步"永远留在 log.md
 
 ## 决策记录
 

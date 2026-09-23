@@ -19,19 +19,17 @@ description: >-
 
 ## Philosophy
 
-**核心理念**：项目本身携带完整上下文。不依赖特定平台、记忆服务或对话历史。
+**核心理念**：项目本身携带完整上下文，项目目录是唯一的持久化载体——换 Agent、换平台、清空记忆、**本 skill 未安装**，打开项目目录即可继续。
 
 **设计原则：**
 
 1. **纯文件 + 约定**：markdown + YAML frontmatter，零工具依赖，git 友好
-2. **自包含**：每个文档独立可理解，项目整体打开即可继续
+2. **自包含**：每个文档独立可理解，不以读过别的文档为前提
 3. **最小约束**：只规定互操作必需的结构，其余由项目自行演化
 4. **写的人花 2 分钟，读的人省 20 分钟**：信息密度优先，格式服务检索
 5. **单一权威源**：规则只在一处定义，其他文件引用不复述
 
 **格式基础**：[Open Knowledge Format (OKF) v0.2](https://github.com/GoogleCloudPlatform/open-knowledge-format/blob/main/SPEC.md) —— 知识用 markdown + YAML frontmatter 目录表示，人和 Agent 用同一份文件。字段约定与有意偏离见 [format.md](references/format.md)。
-
-**底线**：项目目录是唯一的持久化载体。换 Agent、换平台、清空记忆、**本 skill 未安装**，打开项目目录即可继续。
 
 ## 硬约束
 
@@ -90,14 +88,8 @@ description: >-
 
 ## Boundaries
 
-**不是**：
+本 skill **不是**：
 - 记忆系统（不做向量检索、不跨项目同步状态）
 - 重编排 / 多 agent 调度器——但轻量结构化任务资产（复杂事项拆 需求/设计/实施清单/决策记录）是标准项目的一等组成，见 [structure.md §Customization](references/structure.md)
 - git 的替代品（版本管理就是 git）
 - 强制模板（最小约束，项目自行演化）
-
-**是**：
-- 方法论指南（告诉 Agent "如何组织知识项目"）
-- 结构规范（OKF 兼容的文件约定）
-- 生命周期管理（从创建到归档的过程定义）
-- 自我改进框架（项目和方法论都能迭代）

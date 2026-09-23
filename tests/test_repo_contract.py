@@ -36,6 +36,11 @@ def seed_backrefs(seed_text: str) -> list:
     return [w for w in ("knowledge-project",) if w in seed_text]
 
 
+def seed_boundary_problems(seed_text: str) -> list:
+    """度量：种子块的起止标记是否齐全（seed.md §演化一致性：升级只替换这两个标记之间的内容）。"""
+    return [m for m in ("seed-version", "<!-- /seed -->") if m not in seed_text]
+
+
 def yaml_blocks(text: str) -> list:
     return re.findall(r"```yaml\n(.*?)\n```", text, re.S)
 
@@ -101,6 +106,7 @@ def broken_refs(path: Path, text: str = None) -> list:
     盲区：前缀匹配——§X 只要是某标题的前缀就算命中，改名后仍残留同前缀标题时抓不到。
     `OKF §n` 指外部规范，不在检查范围。"""
     text = path.read_text(encoding="utf-8") if text is None else text
+    text = re.sub(r"```.*?```", "", text, flags=re.S)  # 代码块里的链接是示例，不是引用
     problems = []
     for label, href in LINK.findall(text):
         if re.match(r"^[a-z]+://", href) or href.startswith("#"):
@@ -162,6 +168,7 @@ class RepoContractTests(unittest.TestCase):
         seed = extract_seed_template(SEED.read_text(encoding="utf-8"))
         self.assertIsNotNone(seed, "seed.md 应包含种子模板围栏")
         self.assertEqual(seed_backrefs(seed), [], "种子模板不得回引本 skill 名字")
+        self.assertEqual(seed_boundary_problems(seed), [], "种子模板须带起止标记")
 
     def test_no_machine_paths_in_repo_docs(self):
         for f in list(ROOT.glob("*.md")) + skill_docs():
@@ -192,6 +199,9 @@ class GateFalsificationTests(unittest.TestCase):
         bad_seed = "## Agent 行为规则\n完整方法论见 knowledge-project skill。"
         self.assertTrue(seed_backrefs(bad_seed))
 
+    def test_seed_boundary_detector_negative(self):
+        self.assertEqual(seed_boundary_problems("<!-- seed-version: 2026-09-23 -->\n规则"), ["<!-- /seed -->"])
+
     def test_timestamp_offset_detector_negative(self):
         bad = "stale_after: 2026-12-31\ngenerated:\n  at: 2026-08-13T10:00:00\nverified:\n  - { by: human:a, at: 2026-08-13 }"
         self.assertEqual(len(offsetless_timestamps(bad)), 3)
@@ -203,6 +213,8 @@ class GateFalsificationTests(unittest.TestCase):
         self.assertTrue(broken_refs(src, "见 [seed.md §没有这一节](seed.md)"))
         self.assertTrue(broken_refs(src, "见 §没有这一节"))
         self.assertEqual(broken_refs(src, "## 甲乙\n见 §甲乙、[seed.md §关键约束](seed.md)、OKF §5.4"), [])
+        self.assertEqual(broken_refs(src, "```markdown\n* [示例](不存在.md)\n```"), [])
+        self.assertTrue(broken_refs(src, "```markdown\n示例\n```\n见 [x](不存在.md)"))
 
     def test_unrouted_reference_detector_negative(self):
         self.assertEqual(unrouted_references("见 [a](references/a.md)", ["a.md", "b.md"]), ["b.md"])

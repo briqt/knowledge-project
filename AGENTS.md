@@ -32,11 +32,12 @@
 
 **自足性：完全自足**（三档制已于 2026-08-17 废除，见 [seed.md §关键约束](skills/references/seed.md)）——完整方法论就在同仓库 `skills/`，指向它是**仓内链接**而非外部依赖（零外部引用规则禁的是引用别人的方法论，不禁产品仓引用自己的产品本体），因此本文件**不嵌种子块**，直接遵循它即可。关键几条：
 
+- **维护范围只限本仓**：不主动检查、迁移或提议处理任何下游项目；下游的反馈由用户带进来
 - **不指名任何外部项目**：本仓公开。所有文件与提交信息一律不写外部项目/仓库名，只写类型描述（如"写作型项目"）
 - **有实质进展就追加 `log.md`**："下一步"要写到任意 Agent 只读它就能接手
 - **规则只改 `AGENTS.md`**：`CLAUDE.md` 恒为一行 `@AGENTS.md`（Claude Code 默认不读 AGENTS.md，靠这行引用读进来）
 - **改产品走 Meta-Iteration**（见上表）
-- **提交前跑 `python3 tests/test_repo_contract.py`**：CLAUDE.md 恰为一行引用、SKILL frontmatter 与 YAML 示例可解析、示例时间字段带时区偏移、种子模板零回引、无机器路径、跨文件链接与 § 引用不断链、每个 reference 都在路由表上，机械可判项交给门禁
+- **提交前跑 `python3 tests/test_repo_contract.py`**：CLAUDE.md 恰为一行引用、SKILL frontmatter 与 YAML 示例可解析、示例时间字段带时区偏移、种子模板零回引且带起止标记、无机器路径、跨文件链接与 § 引用不断链、每个 reference 都在路由表上，机械可判项交给门禁
 - Resume 顺序：本文件 → `log.md` 尾部 → 进入工作
 
 ## 上游依赖：OKF

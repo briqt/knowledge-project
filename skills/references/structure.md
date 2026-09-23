@@ -48,6 +48,8 @@ project-root/
 
 **迁移旧项目**（两个文件各存一份完整规则）：内容一致 → 直接把 CLAUDE.md 换成一行引用；有差异 → 先把差异合并进 AGENTS.md（取舍不明就问），再替换。
 
+**用户对本项目的协作偏好也写进 AGENTS.md**（如单独一节"协作偏好"）：用户说"这个项目以后别这样／就照这样"时就地记下，不写进 Agent 的 memory——否则换个 Agent 就丢了。只记对本项目成立的；跨项目的通用偏好不归项目文件管。
+
 ## AGENTS.md vs index.md
 
 | 文件 | 职责 | 内容类型 |
@@ -56,6 +58,15 @@ project-root/
 | index.md | 文件清单 + 导航 | 按目录结构列出具体文件及其 description |
 
 AGENTS.md 引用 index.md（"详见 index.md"），不复述其内容。两者共存时，AGENTS.md 告诉你"去哪个方向"，index.md 告诉你"那个方向有什么"。
+
+index.md 的格式同 OKF §8：不带 frontmatter，按分组列出，每条带上目标文件的 description：
+
+```markdown
+# 分组标题
+
+* [文件标题](relative/path.md) - 该文件 frontmatter 里的 description
+* [子目录](subdir/) - 一句话说明
+```
 
 **"文件 >3 个"只数内容文件**（本节是该阈值的唯一定义处，其余各处只写阈值不复述）：harness 契约文件（AGENTS.md/CLAUDE.md/README.md）与 OKF 保留名（index.md/log.md）不计入——它们不是 index.md 要导航的对象，数进去会催生一份全是噪音的索引。
 
@@ -66,7 +77,6 @@ AGENTS.md 引用 index.md（"详见 index.md"），不复述其内容。两者�
 - **不引用项目外的机器路径**——绝对路径、临时下载目录这类换台机器即失效，读的人也无从取得。
 - **外部材料二选一**：要么**存进项目**（凭据类进 gitignore 的目录），要么**写清怎么获得**（哪个系统、哪个页面、找谁要）。
 - 一次性路径只用于"我这次从哪儿拿的"这类动作，不进沉淀文本。
-- **生成物不得反向依赖、不得引用生成器**：项目的自足性不以任何外部方法论在场为前提，项目文本零外部方法论引用（见 [seed.md §关键约束](seed.md)）。
 
 ## 项目与 OKF bundle 的边界
 
