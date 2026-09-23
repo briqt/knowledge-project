@@ -9,17 +9,18 @@
 | 规模 | 结构 | 适用场景 |
 |------|------|----------|
 | 单文件 | 一个带 frontmatter 的 .md 文件 | 研究笔记、单篇报告、小 topic |
-| 最小项目 | CLAUDE.md/AGENTS.md + log.md + 内容文件 | 短期调研、原型验证、小型写作 |
+| 最小项目 | AGENTS.md + log.md + 内容文件（另加一行引用的 CLAUDE.md） | 短期调研、原型验证、小型写作 |
 | 标准项目 | 完整目录结构 | 多文档协作、长期项目、团队共享 |
 | 规则密集项目 | 标准结构 + 规则分层加载 + 准入退出机制（见 [governance.md](governance.md)） | 规则本身多到成为需要治理的资产 |
 
 当文件增长到需要拆分、或需要跨 session 维护上下文时，从当前规模升级到下一级。
 
-## 最小项目（3 个文件）
+## 最小项目
 
 ```
 project-root/
-├── CLAUDE.md / AGENTS.md   # 项目规范（两文件内容保持一致，见下方说明）
+├── AGENTS.md               # 项目规范（唯一规则文件）
+├── CLAUDE.md               # 只有一行 `@AGENTS.md`（见下方说明）
 ├── log.md                  # 工作日志（OKF 保留文件名）
 └── <content>.md            # 至少一个带 frontmatter 的内容文件
 ```
@@ -28,7 +29,8 @@ project-root/
 
 ```
 project-root/
-├── CLAUDE.md / AGENTS.md   # 项目规范（两文件内容完全一致）
+├── AGENTS.md               # 项目规范（唯一规则文件）
+├── CLAUDE.md               # 只有一行 `@AGENTS.md`
 ├── index.md                # 全局导航（文件 >3 个时创建）
 ├── log.md                  # 工作日志
 ├── .scratch/               # 探索期临时文件（gitignore，蒸馏时处理）
@@ -38,22 +40,24 @@ project-root/
 └── 归档/                   # 已废弃内容（可选）
 ```
 
-## CLAUDE.md/AGENTS.md
+## AGENTS.md 与 CLAUDE.md
 
-不同 Agent 平台读取不同的项目规范文件名，因此两个文件必须同时存在且内容完全一致。修改任一文件时同步更新另一个。
+**AGENTS.md 是项目唯一的规则文件**，也是单一权威规则源——其他文件的规则与之冲突时以它为准。
 
-CLAUDE.md/AGENTS.md 是项目的单一权威规则源，其他文件的规则与之冲突时以此为准。
+**CLAUDE.md 只写一行 `@AGENTS.md`，别的什么都不写**。Claude Code 默认不读 AGENTS.md（2026-09 实测），只读 CLAUDE.md；`@路径` 是它的引用语法，会把 AGENTS.md 的内容读进来。往 CLAUDE.md 里再写任何规则，就等于有了第二个权威源。不用软链接代替：Windows 上的 git 处理软链接不可靠。
 
-## CLAUDE.md/AGENTS.md vs index.md
+**迁移旧项目**（两个文件各存一份完整规则）：内容一致 → 直接把 CLAUDE.md 换成一行引用；有差异 → 先把差异合并进 AGENTS.md（取舍不明就问），再替换。
+
+## AGENTS.md vs index.md
 
 | 文件 | 职责 | 内容类型 |
 |------|------|----------|
-| CLAUDE.md/AGENTS.md | 规则 + 高层路由 | 项目约定、按事项/职能的入口指引、Agent 行为规范 |
+| AGENTS.md | 规则 + 高层路由 | 项目约定、按事项/职能的入口指引、Agent 行为规范 |
 | index.md | 文件清单 + 导航 | 按目录结构列出具体文件及其 description |
 
-CLAUDE.md/AGENTS.md 引用 index.md（"详见 index.md"），不复述其内容。两者共存时，CLAUDE.md/AGENTS.md 告诉你"去哪个方向"，index.md 告诉你"那个方向有什么"。
+AGENTS.md 引用 index.md（"详见 index.md"），不复述其内容。两者共存时，AGENTS.md 告诉你"去哪个方向"，index.md 告诉你"那个方向有什么"。
 
-**"文件 >3 个"只数内容文件**（本节是该阈值的唯一定义处，其余各处只写阈值不复述）：harness 契约文件（CLAUDE.md/AGENTS.md/README.md）与 OKF 保留名（index.md/log.md）不计入——它们不是 index.md 要导航的对象，数进去会催生一份全是噪音的索引。
+**"文件 >3 个"只数内容文件**（本节是该阈值的唯一定义处，其余各处只写阈值不复述）：harness 契约文件（AGENTS.md/CLAUDE.md/README.md）与 OKF 保留名（index.md/log.md）不计入——它们不是 index.md 要导航的对象，数进去会催生一份全是噪音的索引。
 
 ## 自包含的判据
 
@@ -69,7 +73,7 @@ CLAUDE.md/AGENTS.md 引用 index.md（"详见 index.md"），不复述其内容�
 OKF 的合规单位是 bundle（一棵 concept 目录树），不是整个仓库：
 
 - 纯知识项目：项目根即 bundle root，无须额外声明
-- 混合仓库（代码与知识共存）：在 CLAUDE.md/AGENTS.md 声明哪个子目录是 bundle root（如 `knowledge/`、`docs/`）；边界外的代码、配置、包装文件不按 concept 要求，不为凑格式强行加 frontmatter
+- 混合仓库（代码与知识共存）：在 AGENTS.md 声明哪个子目录是 bundle root（如 `knowledge/`、`docs/`）；边界外的代码、配置、包装文件不按 concept 要求，不为凑格式强行加 frontmatter
 - 未声明边界时，不把仓库里所有 .md 自动当作 OKF concept 检查
 
 ## 信息职责边界
@@ -98,7 +102,7 @@ OKF 的合规单位是 bundle（一棵 concept 目录树），不是整个仓库
 
 ## Customization
 
-不同项目类型可以调整结构。本方法论定义通用骨架，项目 CLAUDE.md/AGENTS.md 按需扩展：
+不同项目类型可以调整结构。本方法论定义通用骨架，项目 AGENTS.md 按需扩展：
 
 | 项目类型 | 典型扩展 | 说明 |
 |----------|----------|------|
@@ -109,4 +113,4 @@ OKF 的合规单位是 bundle（一棵 concept 目录树），不是整个仓库
 
 **任务较重的项目**：复杂事项拆结构化任务资产（需求/边界 · 上下文 · 实施清单 · 决策记录，分区或分 `{task}/` 目录），简单事项 inline。这是**轻量任务管理**——只借任务资产的结构，重编排另用专门工具（见 [SKILL.md §Boundaries](../SKILL.md)）。
 
-覆盖默认规则时，在 CLAUDE.md/AGENTS.md 中写明覆盖了什么和为什么。
+覆盖默认规则时，在 AGENTS.md 中写明覆盖了什么和为什么。

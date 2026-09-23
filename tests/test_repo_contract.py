@@ -1,4 +1,4 @@
-# 仓库确定性门禁。触发条件：提交前手动运行（见 CLAUDE.md §Agent 行为规则）。
+# 仓库确定性门禁。触发条件：提交前手动运行（见 AGENTS.md §Agent 行为规则）。
 # 依 skills/references/governance.md §门禁的有效性：每项检查配证伪用例（*_negative），证明它抓得住该抓的东西。
 import re
 import unittest
@@ -69,6 +69,15 @@ def offsetless_timestamps(block: str) -> list:
     return [v for v in timestamp_values(block) if not OFFSET_DATETIME.match(v)]
 
 
+CLAUDE_STUB = "@AGENTS.md"
+
+
+def claude_stub_problem(text: str):
+    """度量：CLAUDE.md 去掉首尾空白后是否恰为一行 `@AGENTS.md`（structure.md §AGENTS.md 与 CLAUDE.md）。
+    多写任何内容都算违规——那就是第二个权威源。"""
+    return None if text.strip() == CLAUDE_STUB else f"CLAUDE.md 应只有一行 {CLAUDE_STUB}"
+
+
 def frontmatter_of(text: str):
     if not text.startswith("---\n"):
         return None
@@ -121,12 +130,8 @@ def unrouted_references(skill_text: str, reference_names: list) -> list:
 # ---------- 对本仓的正向检查 ----------
 
 class RepoContractTests(unittest.TestCase):
-    def test_claude_agents_identical(self):
-        self.assertEqual(
-            (ROOT / "CLAUDE.md").read_bytes(),
-            (ROOT / "AGENTS.md").read_bytes(),
-            "CLAUDE.md 与 AGENTS.md 必须逐字一致",
-        )
+    def test_claude_md_is_import_stub(self):
+        self.assertIsNone(claude_stub_problem((ROOT / "CLAUDE.md").read_text(encoding="utf-8")))
 
     def test_skill_frontmatter_parses(self):
         fm = frontmatter_of(SKILL.read_text(encoding="utf-8"))
@@ -166,7 +171,7 @@ class RepoContractTests(unittest.TestCase):
     def test_cross_refs_resolve(self):
         # 触发面不能为空：产品文件里一条跨文件引用都没有时，这道检查跑出来也是绿的
         self.assertTrue(any(LINK.search(f.read_text(encoding="utf-8")) for f in skill_docs()))
-        for f in skill_docs() + [ROOT / "README.md", ROOT / "CLAUDE.md"]:
+        for f in skill_docs() + [ROOT / "README.md", ROOT / "AGENTS.md"]:
             with self.subTest(file=f.name):
                 self.assertEqual(broken_refs(f), [])
 
@@ -201,6 +206,11 @@ class GateFalsificationTests(unittest.TestCase):
 
     def test_unrouted_reference_detector_negative(self):
         self.assertEqual(unrouted_references("见 [a](references/a.md)", ["a.md", "b.md"]), ["b.md"])
+
+    def test_claude_stub_detector_negative(self):
+        self.assertTrue(claude_stub_problem("@AGENTS.md\n\n- 另写一条规则"))
+        self.assertTrue(claude_stub_problem("# 规则\n完整规则抄了一份"))
+        self.assertIsNone(claude_stub_problem("@AGENTS.md\n"))
 
     def test_frontmatter_detector_negative(self):
         self.assertIsNone(frontmatter_of("# 没有 frontmatter 的文件\n"))

@@ -1,8 +1,8 @@
 # Seed：种子机制
 
-> 何时读：Initialize 时写 CLAUDE.md/AGENTS.md；Health Check 比对种子版本；升级已有项目的种子块。
+> 何时读：Initialize 时写 AGENTS.md；Health Check 比对种子版本；升级已有项目的种子块。
 
-Initialize 时将核心行为规则**内联**进项目 CLAUDE.md/AGENTS.md，使项目在没有外部方法论在场时仍能自维护。
+Initialize 时将核心行为规则**内联**进项目 AGENTS.md，使项目在没有外部方法论在场时仍能自维护。
 
 **原理**：本 skill = 完整方法论（基因库）；项目里的 Agent 行为规则 = 精简的表达型规则（表型）；Initialize = 提取关键规则内联进项目（繁殖）。
 
@@ -13,7 +13,7 @@ Initialize 时将核心行为规则**内联**进项目 CLAUDE.md/AGENTS.md，使
 
 **为什么禁引用而不是只要求「声明依赖」**：内联种子 = vendoring——项目任何时刻内部自洽，与上游的分歧只在**主动升级**、对照 `seed-version` 复核 diff 时暴露，那是有人在场的受控动作；引用外部方法论 = 动态链接一个可变权威——上游一动，项目文本就半对齐半冲突，而暴露时机是随机的（往往是某次 Resume 撞上才发现）。落后要落后得自洽。
 
-**种子内容**：自足声明、项目文件即记忆、log 追加规则、frontmatter 基本要求、易变量、双文件同步、认知纪律（Epistemics 精简版）、Resume 阅读协议、感知偏差与对齐。
+**种子内容**：自足声明、项目文件即记忆、log 追加规则、frontmatter 基本要求、易变量、规则只写 AGENTS.md、认知纪律（Epistemics 精简版）、Resume 阅读协议、感知偏差与对齐。
 
 **为什么认知纪律进种子**：日常工作中本 skill 通常不会被触发，项目文件里又不许留指向它的指针——对每一类任务都成立的纪律若不内联，就只在初始化、整理这类少数场合被读到，等于不在执行路径上。
 
@@ -32,7 +32,7 @@ Initialize 时将核心行为规则**内联**进项目 CLAUDE.md/AGENTS.md，使
 - **有进展就写 log**：完成实质工作 → 追加 log.md 条目（进展/决策/下一步），每条不超 5 行，"下一步"足以让任意 Agent 从零接手
 - **新建文件写 frontmatter**：至少 `type` 字段
 - **易变量不落静态文本**：计数、进度、状态要么现算、要么只存一处
-- **CLAUDE.md 与 AGENTS.md 保持同步**：修改一方时更新另一方
+- **规则只写 AGENTS.md**：CLAUDE.md 只保留一行 `@AGENTS.md`，不写任何规则
 
 ### 认知纪律
 
@@ -42,7 +42,7 @@ Initialize 时将核心行为规则**内联**进项目 CLAUDE.md/AGENTS.md，使
 
 ### 恢复上下文（Resume）
 
-新 session 阅读顺序：CLAUDE.md/AGENTS.md → 任务清单（如有）→ log.md 尾部 → 进入工作。
+新 session 阅读顺序：AGENTS.md → 任务清单（如有）→ log.md 尾部 → 进入工作。
 若 log 描述与当前文件实际状态冲突，以文件为准，更新过时描述。
 
 ### 感知偏差与对齐

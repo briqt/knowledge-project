@@ -14,7 +14,7 @@ npx skills add briqt/knowledge-project -g -y
 
 两部分——**项目组织**与**工作方法论**：
 
-- **项目结构**：最小 3 文件（CLAUDE.md + log.md + 内容），按规模渐进扩展；规则变多时分常驻/任务/理由三层加载
+- **项目结构**：最小 3 文件（AGENTS.md + log.md + 内容；CLAUDE.md 只一行引用 AGENTS.md），按规模渐进扩展；规则变多时分常驻/任务/理由三层加载
 - **Frontmatter**：OKF 兼容，`type` 必填，其余按需
 - **工作日志**（log.md）：追加式记录进展/决策/下一步，跨 session 恢复上下文
 - **决策记录**：多方案取舍时记录理由，内联到相关文档

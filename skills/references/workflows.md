@@ -5,13 +5,13 @@
 ## Initialize（创建新项目）
 
 1. 按 [structure.md §规模适配](structure.md) 选定规模，创建项目目录
-2. 写 CLAUDE.md/AGENTS.md：
+2. 写 AGENTS.md，另建只有一行 `@AGENTS.md` 的 CLAUDE.md（见 [structure.md §AGENTS.md 与 CLAUDE.md](structure.md)）。AGENTS.md 包含：
    - 项目目标、结构约定
    - **内联种子规则**（模板见 [seed.md §种子模板](seed.md)）——确保后续 Agent 在没有任何外部方法论在场时也能维护项目
 3. 创建 log.md，第一条记录"项目创建 + 目标"
 4. 创建第一个内容文件（带 frontmatter，见 [format.md](format.md)）
 
-**产出**：一个自包含项目，任何 Agent 打开 CLAUDE.md/AGENTS.md 即可开始工作——不需要知道这套方法论从哪来。
+**产出**：一个自包含项目，任何 Agent 打开 AGENTS.md 即可开始工作——不需要知道这套方法论从哪来。
 
 ## Health Check（项目健康检查）
 
@@ -19,7 +19,7 @@
 
 | 检查项 | 标准 | 不达标时 |
 |--------|------|----------|
-| CLAUDE.md/AGENTS.md 存在且有效 | 包含目标、结构约定、Agent 行为指引 | 建议补全 |
+| AGENTS.md 存在且有效 | 包含目标、结构约定、Agent 行为指引 | 建议补全 |
 | 自足性 | 种子块存在（含自足声明与 `seed-version`）；项目文件零外部方法论引用（名字与指针都算） | 列出违规句，建议内联或删除 |
 | log.md 存在 | 有至少一条记录 | 建议创建 |
 | 内容文件有 frontmatter | 至少有 `type` 字段 | 列出缺失文件，建议补 |
@@ -29,7 +29,7 @@
 | 门禁有效性 | 每道机械检查都有配套的证伪用例（见 [governance.md §门禁的有效性](governance.md)） | 建议补证伪用例 |
 | log.md 长度 | ≤ 项目声明的归档阈值（默认 200 行） | 建议归档旧条目 |
 | .scratch/ 积压 | ≤10 文件 | 建议执行 Distill |
-| CLAUDE.md 与 AGENTS.md 同步 | 内容一致 | 建议同步 |
+| CLAUDE.md 只是引用 | CLAUDE.md 存在且恰为一行 `@AGENTS.md`（缺了它 Claude Code 读不到规则） | 建议替换为一行引用；与 AGENTS.md 有差异时先合并进 AGENTS.md |
 | 种子版本 | `seed-version` 不早于本 skill 的种子模板版本 | 提示更新种子 |
 
 **流程**：扫描项目 → 生成诊断报告 → 向用户展示问题和建议 → 用户确认后执行修复 → 记录到 log。
@@ -56,7 +56,7 @@
 触发：阶段完成、方向变更、或 log.md 积累到一定量。
 
 1. 回顾 log 近期条目，识别模式
-2. 更新 CLAUDE.md/AGENTS.md 中的规则（如果有过时的）
+2. 更新 AGENTS.md 中的规则（如果有过时的）
 3. 生成规则退出候选清单，交用户打勾（见 [governance.md §规则的准入与退出](governance.md)）
 4. 归档已废弃内容
 5. 重组 index.md

@@ -89,3 +89,9 @@
 **进展**：`SKILL.md` 554→103 行（35KB→7KB），只留常驻层（原则、硬约束、Epistemics、意图路由表、Resume）；其余原样迁入 `references/` 五份（structure/format/seed/workflows/governance），跨文件引用改为链接。description 重写为「项目组织 + 工作方法论」两半并补治理类触发词，删泛词「接着上次」。种子 bump 2026-09-23：内联认知纪律三条，合并两处条目，净增 0。门禁补跨文件链接/§ 引用与 reference 路由可达两项，均实测证伪；实测 `npx skills add` 会带上 `references/`。
 **决策**：用户显式触发。依据是方法论违反了它自己的「规则必须在执行路径上」——Epistemics 自称贯穿全程，却只在少数触发场合被读到；方法论那一半在 description 里没有入口；每次触发都全量加载约 35KB。理由层（三档制废除的来历）压成一句，完整来历见 08-17 条。偏好类内容不纳入，属 §Boundaries 的范围问题，另议。
 **下一步**：存量实例把种子升到 2026-09-23（加认知纪律三条）；观察新 description 在治理类意图下是否真能触发，漏触发或误触发都记下来。
+
+### 2026-09-23 Meta-Iteration：只维护 AGENTS.md，CLAUDE.md 缩成一行引用 @ai
+
+**进展**：方法论与本仓都改为「AGENTS.md 是唯一规则文件，CLAUDE.md 只有一行 `@AGENTS.md`」。唯一定义处在 structure.md §AGENTS.md 与 CLAUDE.md（含旧项目迁移做法）；Health Check「两文件同步」改为「CLAUDE.md 只是引用」；种子「两文件保持同步」改为「规则只写 AGENTS.md」。门禁「两文件逐字一致」改为「CLAUDE.md 恰为一行引用」，含证伪用例。
+**决策**：用户原意是彻底删掉 CLAUDE.md，前提是「Claude 已兼容 AGENTS.md」。实测 Claude Code 2.1.280：目录里只有 AGENTS.md 时读不到规则，加一行 `@AGENTS.md` 的 CLAUDE.md 后能读到，所以保留这一行，用户同意。不用软链接，Windows 上的 git 处理不可靠。种子版本仍为 2026-09-23：今天的版本刚发布不到一小时，就算有项目在这期间用旧写法初始化，也会被新的 Health Check 项抓到，因为它直接查文件内容，不看版本号。
+**下一步**：存量实例迁移时一并处理：CLAUDE.md 换成一行引用，与 AGENTS.md 有差异的先合并。若 Claude Code 日后原生读取 AGENTS.md，可以议删这一行。

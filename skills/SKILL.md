@@ -35,7 +35,7 @@ description: >-
 
 ## 硬约束
 
-- **项目文件即记忆**：项目的所有上下文落在项目文件中（CLAUDE.md/AGENTS.md、log.md、内容文件），不写入 Agent 自身的 memory。
+- **项目文件即记忆**：项目的所有上下文落在项目文件中（AGENTS.md、log.md、内容文件），不写入 Agent 自身的 memory。
 - **产出物不得反向依赖、不得引用本 skill**：由本方法论创建或维护的项目，其自足性不得以"本 skill 在场"为前提；项目文件中不出现本 skill 的名字，也不留指向任何外部方法论的指针——**无例外**。判据与理由见 [seed.md §关键约束](references/seed.md)。
 - **进展随工作落地**：进展、决策、文件元数据随工作产生同步写入。最终检验：结束工作时，log.md 最后一条的"下一步"足以让任意 Agent 从零接手。
 - **改进走 proposal**：诊断 → 提案 → 用户确认 → 执行 → 记录到 log。
@@ -56,7 +56,7 @@ description: >-
 | 意图 | 读 | 要点 |
 |------|----|------|
 | 创建新项目 | [workflows.md §Initialize](references/workflows.md) → [structure.md](references/structure.md) → [seed.md](references/seed.md) → [format.md](references/format.md) | 选规模、写规则文件并内联种子、建 log 与首个内容文件 |
-| 恢复/继续项目 | 本文件 §Resume | 已有种子的项目按它自己的 CLAUDE.md/AGENTS.md 执行即可 |
+| 恢复/继续项目 | 本文件 §Resume | 已有种子的项目按它自己的 AGENTS.md 执行即可 |
 | 整理、优化、健康检查 | [workflows.md §Health Check](references/workflows.md) | 按诊断结果转 Milestone Review 或 Distill（同文件） |
 | 日常维护：写 log、frontmatter、决策记录，关闭事项 | [workflows.md §Daily Operations](references/workflows.md) → [format.md](references/format.md) | |
 | 沉淀探索期产物 | [workflows.md §Distill](references/workflows.md) | |
@@ -70,7 +70,7 @@ description: >-
 
 新 session 阅读协议：
 
-1. CLAUDE.md/AGENTS.md → 理解项目结构和约定
+1. AGENTS.md → 理解项目结构和约定
 2. 任务路由表（如有）→ 按本次任务加载对应的任务层规则
 3. 任务清单（如有）→ 知道当前活跃任务
 4. log.md 尾部 5-10 条 → 知道最近进展和阻塞
@@ -82,7 +82,7 @@ description: >-
 
 在项目中工作时，持续感知结构摩擦并推动改进：
 
-- 发现规则与实际操作不一致 → 提出 CLAUDE.md/AGENTS.md 修改建议
+- 发现规则与实际操作不一致 → 提出 AGENTS.md 修改建议
 - 发现导航不够高效 → 提出结构调整
 - 发现重复模式 → 提出新规则或模板（新增前先过 [governance.md §规则的准入与退出](references/governance.md)）
 
