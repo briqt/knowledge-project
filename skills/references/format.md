@@ -40,7 +40,7 @@ verified:                         # 可选，谁复核过
 | 处 | OKF | 我们 | 理由 |
 |----|-----|------|------|
 | `log.md` 顺序与格式 | 日期分组、**最新在前**、条目为散文 | **最新在底部**（append-only）、条目为四字段结构 | append-only 的 diff 只在末尾增长、冲突少；"下一步"恒定落在文件末尾，是 session 接力的取用点 |
-| `AGENTS.md`/`CLAUDE.md`/`README.md` 的 frontmatter | 非保留名 ⇒ 要求有 frontmatter | 不带 | 它们是 harness 契约文件（面向运行时的 Agent 与人），不是知识 concept |
+| `AGENTS.md`/`README.md` 的 frontmatter | 非保留名 ⇒ 要求有 frontmatter | 不带 | 它们是 harness 契约文件（面向运行时的 Agent 与人），不是知识 concept |
 | Attested Computation（OKF §10） | 可选族 | 不采用 | 面向可执行的数据口径，超出知识项目范围 |
 
 `log.md` 的日期标题统一用 `###`，不与 `##` 混用——混用会让任何按标题定位条目的检查失效。

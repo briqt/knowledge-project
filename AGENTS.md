@@ -13,7 +13,6 @@
 | `skills/SKILL.md` | 运行时的 Agent | **产品本体·常驻层**：每次触发全量加载——原则、硬约束、Epistemics、意图路由表 |
 | `skills/references/*.md` | 运行时的 Agent | **产品本体·任务层**：按路由表只读本次意图需要的文件；每个文件必须被路由表链接到 |
 | `AGENTS.md` | 维护本仓库的 Agent | 本文件：怎么维护这个仓库 |
-| `CLAUDE.md` | Claude Code | 只有一行 `@AGENTS.md`，不写任何内容 |
 | `log.md` | 维护者 | 维护进展与决策，跨 session 接续 |
 | `tests/test_repo_contract.py` | 维护本仓库的 Agent | 确定性仓库门禁（含证伪用例），不属于产品本体 |
 
@@ -35,9 +34,9 @@
 - **维护范围只限本仓**：不主动检查、迁移或提议处理任何下游项目；下游的反馈由用户带进来
 - **不指名任何外部项目**：本仓公开。所有文件与提交信息一律不写外部项目/仓库名，只写类型描述（如"写作型项目"）
 - **有实质进展就追加 `log.md`**："下一步"要写到任意 Agent 只读它就能接手
-- **规则只改 `AGENTS.md`**：`CLAUDE.md` 恒为一行 `@AGENTS.md`（Claude Code 默认不读 AGENTS.md，靠这行引用读进来）
+- **规则只写 `AGENTS.md`**：本仓唯一的规则文件，不另建副本
 - **改产品走 Meta-Iteration**（见上表）
-- **提交前跑 `python3 tests/test_repo_contract.py`**：CLAUDE.md 恰为一行引用、SKILL frontmatter 与 YAML 示例可解析、示例时间字段带时区偏移、种子模板零回引且带起止标记、无机器路径、跨文件链接与 § 引用不断链、每个 reference 都在路由表上，机械可判项交给门禁
+- **提交前跑 `python3 tests/test_repo_contract.py`**：SKILL frontmatter 与 YAML 示例可解析、示例时间字段带时区偏移、种子模板零回引且带起止标记、无机器路径、跨文件链接与 § 引用不断链、每个 reference 都在路由表上，机械可判项交给门禁
 - Resume 顺序：本文件 → `log.md` 尾部 → 进入工作
 
 ## 上游依赖：OKF

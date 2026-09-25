@@ -8,8 +8,8 @@
 
 ### 2026-07-10 仓库开始 dogfood 自身方法论 @ai
 
-**进展**：补齐 `CLAUDE.md`/`AGENTS.md`/`log.md`，让本仓库用自己的方法论维护自己；README 加一句定位澄清（元技能、方法论本体在 `skills/`）。
-**决策**：`CLAUDE.md` 不嵌种子块——完整方法论就在同仓库 `skills/SKILL.md`，直接引用避免双份漂移。
+**进展**：补齐 `AGENTS.md`/`log.md`，让本仓库用自己的方法论维护自己；README 加一句定位澄清（元技能、方法论本体在 `skills/`）。
+**决策**：`AGENTS.md` 不嵌种子块——完整方法论就在同仓库 `skills/SKILL.md`，直接引用避免双份漂移。
 **下一步**：B（stable-ID 的 Meta-Iteration proposal）待用户单独决策后启动。
 
 ### 2026-07-10 Meta-Iteration：任务清单状态列纳入派生视图纪律 @ai
@@ -27,19 +27,19 @@
 ### 2026-07-13 Meta-Iteration：Customization 范例去除私有仓引用 @ai
 
 **进展**：`skills/SKILL.md` Customization 表两行（写作项目/软件项目）的「说明」列曾指名两个作者私有仓——对使用者而言不存在，是悬空引用（含在公开仓里也等于泄露私有项目名）。改为自解释描述（「方法论/角色/知识/作品四层分离」「按需求→设计→信息职责边界分层」），与研究/知识库两行的自足风格对齐。
-**决策**：范例应自解释、不外链具体项目；未改 Seed（非核心规则，不 bump seed-version），CLAUDE/AGENTS 无涉、保持一致。
+**决策**：范例应自解释、不外链具体项目；未改 Seed（非核心规则，不 bump seed-version），AGENTS.md 无涉。
 **下一步**：无。开源 skill 范例应始终自足，后续新增范例沿用此原则。
 
 ### 2026-08-06 脱敏规则 + 待办清理 @ai
 
-**进展**：确立「不指名任何外部项目」并写入 `CLAUDE.md`/`AGENTS.md`；据此改写既有维护记录的指代方式，历史压缩为单次提交。清理历史条目积压的悬挂待办，仅余 1 项。
-**决策**：规则落在 `CLAUDE.md`/`AGENTS.md` 而非仅留 log，才对后续 Agent 生效；压缩缘由与旧历史备份由维护者本地留档，不入公开仓。
+**进展**：确立「不指名任何外部项目」并写入 `AGENTS.md`；据此改写既有维护记录的指代方式，历史压缩为单次提交。清理历史条目积压的悬挂待办，仅余 1 项。
+**决策**：规则落在 `AGENTS.md` 而非仅留 log，才对后续 Agent 生效；压缩缘由与旧历史备份由维护者本地留档，不入公开仓。
 **下一步**：「归档即关闭」待外部试行项目熟化后，单独走一轮 Meta-Iteration proposal 合入 `skills/SKILL.md`；无其他悬挂项。
 
 ### 2026-08-13 上游 OKF 巡检：已升 v0.2，完成适配 @ai
 
 **进展**：上游 v0.1→v0.2（minor bump + 2 项 supersede）。适配：`timestamp`→`generated:{by,at}` + actor 约定（`human:<id>`/`<产出者>/<版本>`，与 log 的 `@操作人` 并为同一套身份语义）；采纳 `status`（承载归档即关闭）与 `verified`+trust tier（承载门禁分层——上游与我们独立收敛到「机器确认 vs 人已复核」同一区分）；`index.md` 一律不带 frontmatter（唯一例外＝根 index 的 `okf_version`）；`sources`/`stale_after` 以「可选族按需采用」纳入并附防伪造规则（actor/来源不明不编造，legacy `timestamp` 保留；宽容消费者/严格生产者）；新增 §项目与 OKF bundle 的边界（混合仓库声明 bundle root，边界外不按 concept 要求）。
-**决策**：**不采纳** Attested Computation（面向可执行数据口径，越界）；`log.md` 保持最新在底部 append-only、harness 契约文件不带 frontmatter——两处连同 §10 写进 SKILL §与 OKF 的显式分歧，不静默违反。log 日期标题钉死 `###`（实例已把 `##`/`###` 混用到需脚本同时认两种）。巡检周期由「定期」改**每月**并写进 `CLAUDE.md`/`AGENTS.md`。
+**决策**：**不采纳** Attested Computation（面向可执行数据口径，越界）；`log.md` 保持最新在底部 append-only、harness 契约文件不带 frontmatter——两处连同 §10 写进 SKILL §与 OKF 的显式分歧，不静默违反。log 日期标题钉死 `###`（实例已把 `##`/`###` 混用到需脚本同时认两种）。巡检周期由「定期」改**每月**并写进 `AGENTS.md`。
 **下一步**：下次巡检 2026-09 上旬；重点看 `sources`/`stale_after` 是否被实例自发采用（是则从可选升为推荐）。
 
 ### 2026-08-13 Meta-Iteration：种子零回引 + 三档自足 + 实例反哺（两份竞争实现融合评审） @ai
@@ -50,13 +50,13 @@
 
 ### 2026-08-13 Self-Iteration：仓库门禁 + LICENSE + 阈值口径 @ai
 
-**进展**：`skills/SKILL.md` 明确「文件 >3 个」只数内容文件（唯一定义处＝§CLAUDE.md/AGENTS.md vs index.md）；README 同步新能力清单；补 `LICENSE`（README 早已声明 MIT 却无文件）与 `.gitignore`；按门禁分层落地 `tests/test_repo_contract.py`（双文件逐字一致、SKILL frontmatter 与 YAML 示例可解析、种子模板零回引、无机器路径），每项检查配证伪用例，消费者与触发（提交前运行）写进 `CLAUDE.md`/`AGENTS.md`。
+**进展**：`skills/SKILL.md` 明确「文件 >3 个」只数内容文件（唯一定义处＝§AGENTS.md vs index.md）；README 同步新能力清单；补 `LICENSE`（README 早已声明 MIT 却无文件）与 `.gitignore`；按门禁分层落地 `tests/test_repo_contract.py`（SKILL frontmatter 与 YAML 示例可解析、种子模板零回引、无机器路径），每项检查配证伪用例，消费者与触发（提交前运行）写进 `AGENTS.md`。
 **决策**：本仓不建根 index.md——根 md 里内容文件仅 1 个，按新口径不足阈值；实例名泄漏扫描不能写进入库测试（禁词本身就是泄漏），留在维护流程里手工 grep。
 **下一步**：无。
 
 ### 2026-08-17 Meta-Iteration：废除三档自足制，生成物零外部引用 @ai
 
-**进展**：`skills/SKILL.md` 七处——「不得反向依赖」升级为「不得反向依赖、不得引用」（名字与指针都禁、无例外）；删三档 A/B/C 表与档 C 通道；种子模板 bump 2026-08-17（删档 C 改写行）；Health Check「自足档位声明」→「自足性（种子块在 + 零外部方法论引用）」；升级路径改由环境承担、`seed-version` 为唯一版本锚。本仓 CLAUDE.md/AGENTS.md 自足声明去档位词汇（仓内链接不在禁列）。
+**进展**：`skills/SKILL.md` 七处——「不得反向依赖」升级为「不得反向依赖、不得引用」（名字与指针都禁、无例外）；删三档 A/B/C 表与档 C 通道；种子模板 bump 2026-08-17（删档 C 改写行）；Health Check「自足档位声明」→「自足性（种子块在 + 零外部方法论引用）」；升级路径改由环境承担、`seed-version` 为唯一版本锚。本仓 AGENTS.md 自足声明去档位词汇（仓内链接不在禁列）。
 **决策**：用户显式触发并拍板。理由：内联种子＝vendoring，与上游的分歧只在**主动升级**对照 seed-version 复核时受控暴露；档 C＝动态链接可变权威，上游一动实例文本即半对齐半冲突、暴露时机随机——一个任务执行型实例在方法论升级后恰好实证了该事故形态（整轮对齐才清完冲突）。且档 B 与 A 仅差一行可删指针，升级入口本不需落在项目文本，三档一并坍缩为单一标准。
 **下一步**：存量实例按新规迁移（删依赖声明、内联种子 `seed-version: 2026-08-17`）；下次巡检（2026-09 上旬）观察零引用规则有无实例覆盖或矛盾读法。
 
@@ -68,7 +68,7 @@
 
 ### 2026-09-23 上游 OKF 巡检：迁独立仓 + 时间戳收严 @ai
 
-**进展**：OKF 迁至独立仓 `open-knowledge-format`，旧副本已冻结 → README/CLAUDE/AGENTS/SKILL 四处链接改指新仓（SPEC 逐字相同，仍 v0.2）。上游 #323 要求所有时间字段为带显式偏移的 datetime、date-only 被严格消费者忽略 → 走下条 Meta-Iteration。
+**进展**：OKF 迁至独立仓 `open-knowledge-format`，旧副本已冻结 → README/AGENTS/SKILL 等处链接改指新仓（SPEC 逐字相同，仍 v0.2）。上游 #323 要求所有时间字段为带显式偏移的 datetime、date-only 被严格消费者忽略 → 走下条 Meta-Iteration。
 **决策**：以下观望不动——#28（提议 `generated` 只记创建、另加 `revised`；合并则与我们「改文档即更新 `generated.at`」冲突）、#24（#323 不兼容却没 bump 版本，`okf_version: "0.2"` 指两份文档）、#29（路径相对基准）、#26（重生成根 index 丢 `okf_version`）。
 **下一步**：2026-10 巡检，重点 #28 与 #24 的走向。
 
@@ -90,14 +90,20 @@
 **决策**：用户显式触发。依据是方法论违反了它自己的「规则必须在执行路径上」——Epistemics 自称贯穿全程，却只在少数触发场合被读到；方法论那一半在 description 里没有入口；每次触发都全量加载约 35KB。理由层（三档制废除的来历）压成一句，完整来历见 08-17 条。偏好类内容不纳入，属 §Boundaries 的范围问题，另议。
 **下一步**：存量实例把种子升到 2026-09-23（加认知纪律三条）；观察新 description 在治理类意图下是否真能触发，漏触发或误触发都记下来。
 
-### 2026-09-23 Meta-Iteration：只维护 AGENTS.md，CLAUDE.md 缩成一行引用 @ai
+### 2026-09-23 Meta-Iteration：只维护 AGENTS.md 一份规则文件 @ai
 
-**进展**：方法论与本仓都改为「AGENTS.md 是唯一规则文件，CLAUDE.md 只有一行 `@AGENTS.md`」。唯一定义处在 structure.md §AGENTS.md 与 CLAUDE.md（含旧项目迁移做法）；Health Check「两文件同步」改为「CLAUDE.md 只是引用」；种子「两文件保持同步」改为「规则只写 AGENTS.md」。门禁「两文件逐字一致」改为「CLAUDE.md 恰为一行引用」，含证伪用例。
-**决策**：用户原意是彻底删掉 CLAUDE.md，前提是「Claude 已兼容 AGENTS.md」。实测 Claude Code 2.1.280：目录里只有 AGENTS.md 时读不到规则，加一行 `@AGENTS.md` 的 CLAUDE.md 后能读到，所以保留这一行，用户同意。不用软链接，Windows 上的 git 处理不可靠。种子版本仍为 2026-09-23：今天的版本刚发布不到一小时，就算有项目在这期间用旧写法初始化，也会被新的 Health Check 项抓到，因为它直接查文件内容，不看版本号。
-**下一步**：存量实例迁移时一并处理：CLAUDE.md 换成一行引用，与 AGENTS.md 有差异的先合并。若 Claude Code 日后原生读取 AGENTS.md，可以议删这一行。
+**进展**：方法论与本仓都改为「AGENTS.md 是唯一规则文件」。Health Check「两文件同步」、种子「两文件保持同步」、门禁「两文件逐字一致」随之改写，门禁含证伪用例。
+**决策**：用户显式触发。不用软链接，Windows 上的 git 处理不可靠。种子版本仍为 2026-09-23：今天的版本刚发布不到一小时，就算有项目在这期间用旧写法初始化，也会被 Health Check 抓到，因为它直接查文件内容，不看版本号。
+**下一步**：无。
 
 ### 2026-09-23 Meta-Iteration：内容审校——两处纠错、四处补缺、四处精简 @ai
 
 **进展**：纠错：workflows 的 Health Check 时机与 SKILL 路由矛盾（拆分时引入），改为引用路由；删掉非 OKF 字段 `relates`，它与正文链接重复。补缺：Meta-Iteration 只改源仓库、不改安装副本；log 归档做法；index.md 格式示例；种子加结束标记 `<!-- /seed -->` 并写明边界；协作偏好写进 AGENTS.md，种子「项目文件即记忆」同步点明。精简：删「可迭代的层次」表、重复的流程块、自包含判据里第三处零引用复述，SKILL 常驻层去掉「底线」与 Boundaries「是：」。门禁新增种子起止标记检查；断链检查跳过代码块里的示例链接。均含证伪用例。
 **决策**：用户显式触发。种子改动并入 2026-09-23 同一版，理由同上条。本仓维护范围只限本仓，已写入 AGENTS.md；此前各条里「存量实例迁移」类的下一步一律作废。
 **下一步**：无待办。下次 OKF 巡检在 2026-10，重点看 #28（`generated` 语义）与 #24（版本号）。
+
+### 2026-09-25 Meta-Iteration：只留 AGENTS.md，删掉 Claude Code 专用的引用文件 @ai
+
+**进展**：删掉 Claude Code 专用的一行引用文件，产品与本仓不再有任何相关描述。structure.md 该节改名 §唯一规则文件；Health Check 该项改为通用的「规则文件唯一」（仍能抓到残留的规则副本）；种子改为「不另建其他规则文件或副本」，模板 bump 2026-09-25；门禁删掉对应检查和证伪用例。历史 log 条目按用户要求一并改写。
+**决策**：用户显式触发并拍板。依据：Claude Code 2.1.282 实测，目录里只有 AGENTS.md、读文件的工具全部禁用时仍能说出其中的暗号，说明 AGENTS.md 会自动加载。这推翻了 09-23 在 2.1.280 上得出的前提。
+**下一步**：无待办。下次 OKF 巡检在 2026-10，重点看 #28 与 #24。

@@ -9,7 +9,7 @@
 | 规模 | 结构 | 适用场景 |
 |------|------|----------|
 | 单文件 | 一个带 frontmatter 的 .md 文件 | 研究笔记、单篇报告、小 topic |
-| 最小项目 | AGENTS.md + log.md + 内容文件（另加一行引用的 CLAUDE.md） | 短期调研、原型验证、小型写作 |
+| 最小项目 | AGENTS.md + log.md + 内容文件 | 短期调研、原型验证、小型写作 |
 | 标准项目 | 完整目录结构 | 多文档协作、长期项目、团队共享 |
 | 规则密集项目 | 标准结构 + 规则分层加载 + 准入退出机制（见 [governance.md](governance.md)） | 规则本身多到成为需要治理的资产 |
 
@@ -20,7 +20,6 @@
 ```
 project-root/
 ├── AGENTS.md               # 项目规范（唯一规则文件）
-├── CLAUDE.md               # 只有一行 `@AGENTS.md`（见下方说明）
 ├── log.md                  # 工作日志（OKF 保留文件名）
 └── <content>.md            # 至少一个带 frontmatter 的内容文件
 ```
@@ -30,7 +29,6 @@ project-root/
 ```
 project-root/
 ├── AGENTS.md               # 项目规范（唯一规则文件）
-├── CLAUDE.md               # 只有一行 `@AGENTS.md`
 ├── index.md                # 全局导航（文件 >3 个时创建）
 ├── log.md                  # 工作日志
 ├── .scratch/               # 探索期临时文件（gitignore，蒸馏时处理）
@@ -40,13 +38,11 @@ project-root/
 └── 归档/                   # 已废弃内容（可选）
 ```
 
-## AGENTS.md 与 CLAUDE.md
+## 唯一规则文件
 
 **AGENTS.md 是项目唯一的规则文件**，也是单一权威规则源——其他文件的规则与之冲突时以它为准。
 
-**CLAUDE.md 只写一行 `@AGENTS.md`，别的什么都不写**。Claude Code 默认不读 AGENTS.md（2026-09 实测），只读 CLAUDE.md；`@路径` 是它的引用语法，会把 AGENTS.md 的内容读进来。往 CLAUDE.md 里再写任何规则，就等于有了第二个权威源。不用软链接代替：Windows 上的 git 处理软链接不可靠。
-
-**迁移旧项目**（两个文件各存一份完整规则）：内容一致 → 直接把 CLAUDE.md 换成一行引用；有差异 → 先把差异合并进 AGENTS.md（取舍不明就问），再替换。
+不另建任何规则文件或副本——多一份就多一个权威源。已有副本的旧项目：先把差异合并进 AGENTS.md（取舍不明就问），再删副本。
 
 **用户对本项目的协作偏好也写进 AGENTS.md**（如单独一节"协作偏好"）：用户说"这个项目以后别这样／就照这样"时就地记下，不写进 Agent 的 memory——否则换个 Agent 就丢了。只记对本项目成立的；跨项目的通用偏好不归项目文件管。
 
@@ -68,7 +64,7 @@ index.md 的格式同 OKF §8：不带 frontmatter，按分组列出，每条带
 * [子目录](subdir/) - 一句话说明
 ```
 
-**"文件 >3 个"只数内容文件**（本节是该阈值的唯一定义处，其余各处只写阈值不复述）：harness 契约文件（AGENTS.md/CLAUDE.md/README.md）与 OKF 保留名（index.md/log.md）不计入——它们不是 index.md 要导航的对象，数进去会催生一份全是噪音的索引。
+**"文件 >3 个"只数内容文件**（本节是该阈值的唯一定义处，其余各处只写阈值不复述）：harness 契约文件（AGENTS.md/README.md）与 OKF 保留名（index.md/log.md）不计入——它们不是 index.md 要导航的对象，数进去会催生一份全是噪音的索引。
 
 ## 自包含的判据
 

@@ -5,7 +5,7 @@
 ## Initialize（创建新项目）
 
 1. 按 [structure.md §规模适配](structure.md) 选定规模，创建项目目录
-2. 写 AGENTS.md，另建只有一行 `@AGENTS.md` 的 CLAUDE.md（见 [structure.md §AGENTS.md 与 CLAUDE.md](structure.md)）。AGENTS.md 包含：
+2. 写 AGENTS.md（项目唯一的规则文件，见 [structure.md §唯一规则文件](structure.md)），包含：
    - 项目目标、结构约定
    - **内联种子规则**（模板见 [seed.md §种子模板](seed.md)）——确保后续 Agent 在没有任何外部方法论在场时也能维护项目
 3. 创建 log.md，第一条记录"项目创建 + 目标"
@@ -29,7 +29,7 @@
 | 门禁有效性 | 每道机械检查都有配套的证伪用例（见 [governance.md §门禁的有效性](governance.md)） | 建议补证伪用例 |
 | log.md 长度 | ≤ 项目声明的归档阈值（默认 200 行） | 建议归档旧条目 |
 | .scratch/ 积压 | ≤10 文件 | 建议执行 Distill |
-| CLAUDE.md 只是引用 | CLAUDE.md 存在且恰为一行 `@AGENTS.md`（缺了它 Claude Code 读不到规则） | 建议替换为一行引用；与 AGENTS.md 有差异时先合并进 AGENTS.md |
+| 规则文件唯一 | 除 AGENTS.md 外没有另一份承载项目规则的文件 | 建议把差异合并进 AGENTS.md，再删副本 |
 | 种子版本 | `seed-version` 不早于本 skill 的种子模板版本 | 提示更新种子 |
 
 **流程**：扫描项目 → 生成诊断报告 → 向用户展示问题和建议 → 用户确认后执行修复 → 记录到 log。
