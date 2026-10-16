@@ -26,9 +26,8 @@ verified:                         # 可选，谁复核过
 - 无 frontmatter 时 Agent 从标题和正文推断，不报错
 - **actor 约定**：`human:<id>` 表示人，`<产出者>/<版本>` 表示 Agent 或工具。与 log.md 的 `@操作人` 是同一套身份语义
 - **`generated` 取代 `timestamp`**：旧文档的 `timestamp` 仍可读（OKF 允许回退），新写文件与顺手更新时改用 `generated`。迁移旧文档时 actor 无从确认就保留 `timestamp`，不编造 `generated.by`——读旧文档做宽容消费者，自己写入做严格生产者
-- **`status: deprecated`** 是"归档即关闭"的元数据表达（见 [structure.md §归档即关闭](structure.md)）
 - **`verified` 决定可信档**：无该字段 = 未复核；仅非 human actor = 机器确认；含 `human:<id>` = 人已复核。这与"门禁分层"（见 [governance.md §从教训到规则](governance.md)）是同一个区分——可机械校验的由机器确认，只能语义判断的须人复核
-- **时间字段一律带时区偏移**：`generated.at`、`verified[].at`、`stale_after`、`sources[].last_modified`、`usage_window` 都写成 `2026-08-13T10:00:00+08:00` 这种形式。只写日期的值，严格的消费者会直接忽略——`stale_after: 2026-12-31` 等于没写。迁移只有日期的旧值时，补 `T00:00:00` 加项目所在时区的偏移；时区无从确认就问，不默认 `Z`。log 的日期标题不是字段值，不在此列
+- **时间字段一律带时区偏移**：`generated.at`、`verified[].at`、`stale_after`、`sources[].last_modified`、`usage_window` 都写成 `2026-08-13T10:00:00+08:00` 这种形式。只写日期的值，严格的消费者会直接忽略——`stale_after: 2026-12-31` 等于没写。时区无从确认就问，不默认 `Z`。log 的日期标题不是字段值，不在此列
 - **`index.md` 不带 frontmatter**，唯一例外：项目根 index.md 可写 `okf_version: "0.2"`
 - **其余可选族按需采用**：`sources`（来源清单，正文逐条归因用与 `sources[].id` 同名的脚注；v0.1 的正文 `# Citations` 迁入此字段，无法核实的条目标注待核验）、`stale_after`（绝对过期时刻）。研究型项目值得用；不写不违规，写就只写已核实的值——来源、actor、时间、核验一律不伪造
 - 概念之间的关联用正文里的标准 markdown 链接表达，不另设 frontmatter 字段——OKF 工具按正文链接建关系图
