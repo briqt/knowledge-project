@@ -26,7 +26,7 @@ verified:                         # 可选，谁复核过
 - 无 frontmatter 时 Agent 从标题和正文推断，不报错
 - **actor 约定**：`human:<id>` 表示人，`<产出者>/<版本>` 表示 Agent 或工具。与 log.md 的 `@操作人` 是同一套身份语义
 - **`generated` 取代 `timestamp`**：旧文档的 `timestamp` 仍可读（OKF 允许回退），新写文件与顺手更新时改用 `generated`。迁移旧文档时 actor 无从确认就保留 `timestamp`，不编造 `generated.by`——读旧文档做宽容消费者，自己写入做严格生产者
-- **`verified` 决定可信档**：无该字段 = 未复核；仅非 human actor = 机器确认；含 `human:<id>` = 人已复核。这与"门禁分层"（见 [governance.md §从教训到规则](governance.md)）是同一个区分——可机械校验的由机器确认，只能语义判断的须人复核
+- **`verified` 用于核验复用**：记录人工或有依据的 Agent 在何时核验过，供后续 Agent 聚焦当前任务、减少重复验证和询问。通常按文档记录；仅核验部分内容时，在正文就近写清范围和依据。沿用边界见 [SKILL.md §Epistemics](../SKILL.md)
 - **时间字段一律带时区偏移**：`generated.at`、`verified[].at`、`stale_after`、`sources[].last_modified`、`usage_window` 都写成 `2026-08-13T10:00:00+08:00` 这种形式。只写日期的值，严格的消费者会直接忽略——`stale_after: 2026-12-31` 等于没写。时区无从确认就问，不默认 `Z`。log 的日期标题不是字段值，不在此列
 - **`index.md` 不带 frontmatter**，唯一例外：项目根 index.md 可写 `okf_version: "0.2"`
 - **其余可选族按需采用**：`sources`（来源清单，正文逐条归因用与 `sources[].id` 同名的脚注；v0.1 的正文 `# Citations` 迁入此字段，无法核实的条目标注待核验）、`stale_after`（绝对过期时刻）。研究型项目值得用；不写不违规，写就只写已核实的值——来源、actor、时间、核验一律不伪造
@@ -62,7 +62,7 @@ verified:                         # 可选，谁复核过
 - `@操作人` 用 git 用户名，AI Agent 用 `@ai`
 - `下一步` 是 session 接力的核心机制——写法标准：一个新 Agent 只读这一条就知道该做什么
 - **归档阈值 = 装得下 Resume 所需的最近窗口**（约 2-3 天或 10-15 条），默认 200 行。条目密度高的项目按此上调并在 AGENTS.md 写明覆盖值——阈值卡在绝对行数上会把接力需要的上下文一起归档掉
-- **归档做法**：旧条目原样移到 `log-archive/<年份>.md`（同样最新在底部），log.md 只留最近窗口；最后一条的"下一步"永远留在 log.md
+- **归档做法**：旧条目保持记录内容与顺序，移到 `log-archive/<年份>.md`（同样最新在底部），log.md 只留最近窗口；最后一条的"下一步"永远留在 log.md。归档时调整受影响的链接，保持引用目标不变，并检查链接仍有效
 
 ## 决策记录
 
