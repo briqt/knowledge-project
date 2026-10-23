@@ -29,6 +29,8 @@ npx skills add briqt/knowledge-project -g -y
 
 需要跨多次 session 持续推进的知识工作：文档仓库、研究课题、写作项目、技术方案等。
 
+交流社区：[学 AI，上 Linux DO](https://linux.do/)
+
 ## License
 
 MIT
